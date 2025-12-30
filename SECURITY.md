@@ -1,5 +1,5 @@
 # Security Policy
-The EDOBOLT Team is always checking [EDOBOLT's mail](edobolt@yahoo.com), our support may be crappy 
+The Cobolt Team is always checking [Cobolt's mail](coboltfoss@proton.me), our support may be crappy 
 ## Supported Versions
 
 Use this section to tell people about which versions of your project are
