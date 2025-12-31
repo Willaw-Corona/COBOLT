@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <title>COBOLT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--await Amplify.Auth.signIn(username, password);-->
-    <!-- AWS Amplify for authentication and storage -->
-    <script src="https://dvf70qrt8ch2j.cloudfront.net/amplify/aws-amplify.min.js"></script>
+    <link rel="stylesheet" href="links.css">
     <style>
         body { font-family: Arial, sans-serif; background: #23272a; color: #fff; margin: 0; }
         header { background: #181c20; padding: 1em; text-align: center; }
@@ -39,6 +37,7 @@
         <div id="auth-section">
             <h2>Sign In</h2>
             <input id="username" placeholder="Username" />
+            <input id="mail" type="email" placeholder="Email" required />
             <input id="password" type="password" placeholder="Password" />
             <button onclick="signIn()">Sign In</button>
             <button onclick="signUp()">Sign Up</button>
@@ -68,21 +67,7 @@
         </div>
     </div>
     <script>
-        // AWS Amplify configuration (replace with your AWS config)
-        window.AWS.config = {
-            Auth: {
-                region: 'us-east-1',
-                userPoolId: 'us-east-1_example',
-                userPoolWebClientId: 'exampleclientid',
-            },
-            Storage: {
-                AWSS3: {
-                    bucket: 'your-gamejolt-copy-bucket',
-                    region: 'us-east-1',
-                }
-            }
-        };
-        Amplify.configure(window.AWS.config);
+        // LocalStorage-based configuration: no AWS required
 
         // Simple UI logic
         function showSection(section) {
@@ -93,32 +78,41 @@
 
         // Authentication
         async function signIn() {
-            const username = document.getElementById('username').value;
+            const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
-            try {
-                await Amplify.Auth.signIn(username, password);
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.username === username && u.password === password);
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
                 document.getElementById('auth-section').style.display = 'none';
                 showSection('games');
                 loadGames();
                 loadPosts();
-            } catch (e) {
-                document.getElementById('auth-message').innerText = e.message;
+            } else {
+                document.getElementById('auth-message').innerText = 'Invalid username or password.';
             }
         }
 
         async function signUp() {
-            const username = document.getElementById('username').value;
+            const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
-            try {
-                await aws_amplify.Auth.signUp({ username, password });
-                document.getElementById('auth-message').innerText = 'Sign up successful. Please sign in.';
-            } catch (e) {
-                document.getElementById('auth-message').innerText = e.message;
+            const email = document.getElementById('mail').value.trim();
+            if (!username || !password || !email) {
+                document.getElementById('auth-message').innerText = 'Please provide username, email and password.';
+                return;
             }
+            let users = JSON.parse(localStorage.getItem('users') || '[]');
+            if (users.find(u => u.username === username)) {
+                document.getElementById('auth-message').innerText = 'Username already exists.';
+                return;
+            }
+            users.push({ username, password, email });
+            localStorage.setItem('users', JSON.stringify(users));
+            document.getElementById('auth-message').innerText = 'Sign up successful. Please sign in.';
         }
 
         async function signOut() {
-            await aws_amplify.Auth.signOut();
+            localStorage.removeItem('currentUser');
             document.getElementById('auth-section').style.display = '';
             document.getElementById('games-section').style.display = 'none';
             document.getElementById('upload-section').style.display = 'none';
@@ -131,18 +125,16 @@
             const title = document.getElementById('game-title').value;
             const file = document.getElementById('game-image').files[0];
             if (!file) return;
-            const key = `games/${Date.now()}_${file.name}`;
-            try {
-                await aws_amplify.Storage.put(key, file, { contentType: file.type });
-                // Save game metadata (in real app, use DynamoDB or similar)
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
                 let games = JSON.parse(localStorage.getItem('games') || '[]');
-                games.push({ title, image: key });
+                games.push({ title, image: dataUrl });
                 localStorage.setItem('games', JSON.stringify(games));
                 document.getElementById('upload-message').innerText = 'Game uploaded!';
                 loadGames();
-            } catch (e) {
-                document.getElementById('upload-message').innerText = e.message;
-            }
+            };
+            reader.readAsDataURL(file);
         }
 
         // Load games
@@ -151,13 +143,9 @@
             gameList.innerHTML = '';
             let games = JSON.parse(localStorage.getItem('games') || '[]');
             for (const game of games) {
-                let imageUrl = '';
-                try {
-                    imageUrl = await aws_amplify.Storage.get(game.image);
-                } catch (err) { console.error(`Failed to get image ${game.image}:`, err); }
                 const card = document.createElement('div');
                 card.className = 'game-card';
-                card.innerHTML = `<img src="${imageUrl}" alt="${game.title}"><h3>${game.title}</h3>`;
+                card.innerHTML = `<img src="${game.image}" alt="${game.title}"><h3>${game.title}</h3>`;
                 gameList.appendChild(card);
             }
         }
@@ -168,11 +156,10 @@
             const content = document.getElementById('post-content').value.trim();
             if (!content) return;
             let posts = JSON.parse(localStorage.getItem('posts') || '[]');
-            // Optionally, get username from Auth
-            let username = '';
+            let username = 'Anonymous';
             try {
-                const user = await aws_amplify.Auth.currentAuthenticatedUser();
-                username = user.username || '';
+                const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                if (currentUser && currentUser.username) username = currentUser.username;
             } catch {}
             posts.unshift({
                 content,
@@ -202,17 +189,18 @@
             }
         }
 
-        // Auto sign-in check
-        aws_amplify.Auth.currentAuthenticatedUser()
-            .then(() => {
+        // Auto sign-in check using localStorage
+        (function() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            if (currentUser) {
                 document.getElementById('auth-section').style.display = 'none';
                 showSection('games');
                 loadGames();
                 loadPosts();
-            })
-            .catch(() => {
+            } else {
                 document.getElementById('auth-section').style.display = '';
-            });
+            }
+        })();
     </script>
 </body>
 </html>
