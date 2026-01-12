@@ -1,4 +1,5 @@
 <img src="https://img.shields.io/badge/Status:-Unestable-red"> <img src="https://img.shields.io/badge/Server status:-Down-red"> <img src="https://img.shields.io/badge/Post type:-Local only-yellow">  
+<img src="https://img.shields.io/badge/Status:-Unestable-red"> <img src="https://img.shields.io/badge/Server status:-Down-red"> <img src="https://img.shields.io/badge/Post type:-Local only-yellow">
 
 
 
