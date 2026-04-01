@@ -5,6 +5,11 @@
   # COBOLT, your platform, your game updates
 What can you do you with COBOLT? Simple!
 
+
+  # COBOLT, your platform, your game updates
+What can you do you with COBOLT? Simple!
+
+
 * Be free from GameJolt's greed
 * Upload images
 * Post entire articles
@@ -16,6 +21,3 @@ What can you do you with COBOLT? Simple!
 ## The freedom of non-profit is here!
 We do not find any profit at all, that means that there's no P2W things like frames or post backgrounds.
 Yes, we may add advertisements, but that is optional if you get an adblocker.
-
-
-
