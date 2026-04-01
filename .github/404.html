@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>404</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="links.css">
+    <style>
+        body { font-family: Arial, sans-serif; background: #23272a; color: #fff; margin: 0; }
+        header { background: #181c20; padding: 1em; text-align: center; }
+        nav a { color: #fff; margin: 0 1em; text-decoration: none; }
+        .container { max-width: 900px; margin: 2em auto; background: #2c3136; padding: 2em; border-radius: 8px; }
+        .game-list { display: flex; flex-wrap: wrap; gap: 1em; }
+        .game-card { background: #23272a; padding: 1em; border-radius: 6px; width: 200px; }
+        .game-card img { width: 100%; border-radius: 4px; }
+        .upload-form { margin-bottom: 2em; }
+        input, button { padding: 0.5em; border-radius: 4px; border: none; }
+        button { background: #3d59ab; color: #ffff; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <header>
+        <p>We know we are having some issues with the login and things, you can post but only saved locally</p>
+        <img src=logo.webp alt="COBOLT Logo" style="height: 50px;">
+                <style>img {
+            image-rendering: pixelated;
+        }
+        </style>
+        <nav>
+            <a href="#" onclick="showSection('games')">Games</a>
+            <a href="#" onclick="showSection('upload')">Upload</a>
+            <a href="#" onclick="showSection('posts')">Posts</a>
+            <a href="#" onclick="signOut()">Sign Out</a>
+        </nav>
+    </header>
+ <div class="container">
+        <div id="auth-section">
+            <h2>Opps, we couldn't find this, did you spelled it correctly?</h2>
+        </div>
+        <div id="games-section" style="display:none;">
+            <h2>Games</h2>
+            <div class="game-list" id="game-list"></div>
+        </div>
+        <div id="upload-section" style="display:none;">
+            <h2>Upload Game</h2>
+            <form class="upload-form" onsubmit="uploadGame(event)">
+                <input id="game-title" placeholder="Game Title" required /><br><br>
+                <input id="game-image" type="file" accept="image/*" required /><br><br>
+                <button type="submit">Upload</button>
+            </form>
+            <div id="upload-message"></div>
+        </div>
+        <div id="posts-section" style="display:none;">
+            <h2>Posts</h2>
+            <form class="upload-form" onsubmit="createPost(event)">
+                <textarea id="post-content" placeholder="What's on your mind?" rows="3" style="width:100%;" required></textarea><br><br>
+                <button type="submit">Post</button>
+            </form>
+            <div id="post-message"></div>
+            <div id="post-list"></div>
+        </div>
+    </div>
+</html>
