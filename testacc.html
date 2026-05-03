@@ -6,11 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="links.css">
     <style>
-        img {
+        .pfp {
             overflow: hidden;
             border-radius: 50%;
             width: 200px;
             height: 200px;
+            display: inline-block;
+        }
+
+        .pfp img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile_name {
+            position: absolute;
+            top: 11%;
+            left: 11%
+        }
+
+        .handle {
+            position: absolute;
+            top: 150px;
+            left: 11%
+        }
+
+        .posts {
+            position: absolute;
+            top: 30%;
+            left: 40%
         }
     </style>
     <style>
@@ -27,4 +52,14 @@
     </style>
 </head>
 <body>
-    <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.miraheze.org%2Fwindowswallpaperwiki%2F9%2F9c%2FDefaultAccountTile_(Windows_11).png&f=1&nofb=1&ipt=5398d5e4db9607fe0f32b6fe31606107ba4e047337ee77e0250b3d864c78038d">
+    <header>
+                <div class="logo"><a><img src=logo.webp alt="COBOLT Logo" style="height: 50px;"></a></div>
+                <style>.logo {
+            image-rendering: pixelated;
+        }
+        </style>
+    </header>
+    <div class="pfp"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.miraheze.org%2Fwindowswallpaperwiki%2F9%2F9c%2FDefaultAccountTile_(Windows_11).png&f=1&nofb=1&ipt=5398d5e4db9607fe0f32b6fe31606107ba4e047337ee77e0250b3d864c78038d" alt="Profile Picture"></div>
+    <div class="profile_name"><h3>QA test account</h3></div>
+    <div class="handle"><a href="testacc.html">@test</a></div>
+    <div class="posts"><p>Posts</p></div>
