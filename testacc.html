@@ -18,6 +18,8 @@
             width: 200px;
             height: 200px;
             display: inline-block;
+            position: absolute;
+            left: 20px;
         }
 
         .pfp img {
@@ -28,20 +30,36 @@
 
         .profile_name {
             position: absolute;
-            top: 11%;
-            left: 11%
+            top: 150px;
+            left: 13%
         }
 
         .handle {
             position: absolute;
-            top: 150px;
-            left: 11%
+            top: 190px;
+            left: 13%
         }
 
         .posts {
             position: absolute;
             top: 30%;
             left: 40%
+        }
+
+        .pc {
+            position: absolute;
+            left: 30%;
+            top: 40%;
+            background-color: #3d59ab;
+            height: 50%;
+            width: 30%;
+        }
+
+        .post {
+            position: absolute;
+            left: 40%;
+            top: 60%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
     </style>
     <style>
@@ -68,4 +86,6 @@
     <div class="pfp"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.miraheze.org%2Fwindowswallpaperwiki%2F9%2F9c%2FDefaultAccountTile_(Windows_11).png&f=1&nofb=1&ipt=5398d5e4db9607fe0f32b6fe31606107ba4e047337ee77e0250b3d864c78038d" alt="Profile Picture"></div>
     <div class="profile_name"><h3>QA test account</h3></div>
     <div class="handle"><a href="testacc.html">@test</a></div>
+    <div class="pc"></div> <!-- Do not confuse, this means "Post container" -->
     <div class="posts"><p>Posts</p></div>
+    <div class="post"><p>Lorem ipsum dolor sit amet.</p></div> <!-- Gonna insert a JS code so the container is dynamic -->
